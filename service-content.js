@@ -1,6 +1,5 @@
 /* Service navigation and editorial content. Runs before the shared interactions. */
-const layoutStyle=document.createElement('link');layoutStyle.rel='stylesheet';layoutStyle.href='./layout-polish.css';document.head.append(layoutStyle);
-const services = [['logotipos','Logotipos e identidad'],['redes','Redes sociales'],['videos','Videos'],['flyers','Flyers con IA'],['dron','Dron'],['cursos','Cursos e IA'],['tarjetas','Tarjetas digitales']];
+const services = [['logotipos','Logotipos e identidad'],['redes','Redes sociales'],['videos','Videos'],['flyers','Flyers y publicidad'],['dron','Dron'],['cursos','Cursos y capacitación'],['tarjetas','Tarjetas digitales y NFC'],['web','Diseño web'],['ia','Soluciones empresariales con IA']];
 const serviceRoot = document.querySelector('#servicios');
 const catalog = document.createElement('div');
 catalog.className='service-catalog';
@@ -8,6 +7,7 @@ catalog.innerHTML='<div class="catalog-intro"><p class="eyebrow">EXPLORA LOS SER
 serviceRoot.after(catalog);
 const panels=catalog.querySelector('.service-panels');
 const extraServices={
+ ia:['Tecnología que trabaja para tu empresa.','Soluciones empresariales con IA','Consultoría e implementación para organizar información, conectar procesos y mejorar la operación.',[['Procesos','Automatización de tareas y flujos administrativos.'],['Información','Sistemas administrativos, gestión de información, reportes y dashboards.'],['Ventas y operación','Herramientas de seguimiento comercial y soluciones para transporte y logística.'],['Integraciones','Conexión de herramientas empresariales según viabilidad y alcance.'],['Inversión','Cotización personalizada tras revisar tus objetivos, procesos e integraciones.']]],
  flyers:['Contenido visual que hace visible tu negocio.','Flyers con IA','Diseños para comunicar promociones, presentar servicios y mantener una imagen consistente en tus redes.',[['Concepto visual','Composición, jerarquía de texto y adaptación a tu identidad.'],['Contenido','Imagen asistida por IA, revisión visual y texto comercial.'],['Entrega','Archivo digital listo para publicar. Formatos y cantidad definidos en la cotización.'],['Inversión','A cotizar según cantidad y formatos. También incluido en planes de redes y paquetes completos.']]],
  web:['Tu negocio, abierto al mundo.','Diseño web','Una presencia digital clara, rápida y accesible, con tus servicios, portafolio y formas de contacto.',[['Diseño','Interfaz personalizada y adaptable a celular, tablet y computadora.'],['Contenido','Organización de servicios, presentación de marca y galería de proyectos.'],['Contacto','Enlaces a WhatsApp, correo y redes sociales.'],['Entrega','Sitio publicado en el alojamiento acordado y guía de actualización.'],['Inversión','Cotización personalizada según secciones y funcionalidades. Dominio y servicios externos se presupuestan por separado.']]],
  tarjetas:['Todos tus contactos, en un solo enlace.','Tarjetas digitales','Comparte tu presentación profesional desde tu celular o mediante un código QR.',[['Identidad','Nombre, cargo, foto o logotipo y descripción de tus servicios.'],['Contacto directo','WhatsApp, correo electrónico y enlaces de redes sociales.'],['Tu presencia digital','Enlace a sitio web o portafolio, cuando esté disponible.'],['Código QR','Acceso a tu tarjeta para usar en materiales impresos y digitales.'],['Inversión','Básica: $1,500 MXN · Plus: $2,500 MXN · Premium: $3,500 MXN.']]]
@@ -19,32 +19,9 @@ for(const [id,name] of services){
 }
 const training=document.querySelector('.custom-training');document.querySelector('#cursos').append(training);
 document.querySelector('#cursos').append(document.querySelector('#cotizador-cursos'));
-const tabs=[...catalog.querySelectorAll('[role=tab]')];
-function selectService(id,scroll=false){
- if(id==='clientes')id='portafolio';
- const project=projectPages.find(p=>'proyecto-'+p.slug===id);
- document.body.classList.toggle('project-view',Boolean(project));
- projectRoot.hidden=!project;
- projectRoot.querySelectorAll('.project-page').forEach(page=>page.hidden=page.id!==id);
- if(id==='ia')id='cursos';
- if(id==='web')id='servicios';
- const packageLink=/^paquete-[0-5]$/.test(id);
- const service=services.find(x=>x[0]===(packageLink?'logotipos':id));
- document.body.classList.toggle('service-view',Boolean(service));
- catalog.hidden=!service;
- document.title=project?project.name+' | Portafolio JC Creativo':service?service[1]+' | JC Creativo':'JC Creativo | Diseño, Marketing e Inteligencia Artificial';
- tabs.forEach(b=>{const active=Boolean(service)&&b.dataset.service===service[0];b.setAttribute('aria-selected',String(active));b.tabIndex=active?0:-1;document.getElementById(b.dataset.service).hidden=!active;});
- if(service){catalog.querySelector('.catalog-intro h2').textContent=service[1];catalog.querySelector('.catalog-intro>p:last-child').textContent='Conoce el servicio, compara sus opciones y elige el paquete que mejor se adapta a tu proyecto.';}
- if(scroll){const target=project?projectRoot:packageLink?document.getElementById(id):service?catalog:document.getElementById(id)||document.getElementById('inicio');target?.scrollIntoView({behavior:'instant',block:'start'});}
-}
-tabs.forEach((button,index)=>{button.onclick=()=>{history.pushState(null,'','#'+button.dataset.service);selectService(button.dataset.service)};button.onkeydown=e=>{let n;if(e.key==='ArrowRight')n=(index+1)%tabs.length;if(e.key==='ArrowLeft')n=(index+tabs.length-1)%tabs.length;if(e.key==='Home')n=0;if(e.key==='End')n=tabs.length-1;if(n!==undefined){e.preventDefault();tabs[n].focus();tabs[n].click();}};});
-document.querySelectorAll('.service-card').forEach((card,i)=>{if(i===6||i===7)card.remove();});
-const serviceCards=[...document.querySelectorAll('.service-card')];serviceCards.forEach((a,i)=>{a.href='#'+services[i][0];a.querySelector('span').textContent='Ver más información →';});
-serviceCards.find(a=>a.hash==='#cursos').querySelector('p').textContent='Marketing, diseño e inteligencia artificial aplicada a tu negocio.';
-document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;e.preventDefault();const id=a.hash.slice(1);history.pushState(null,'','#'+id);selectService(id,true);});
-addEventListener('hashchange',()=>selectService(location.hash.slice(1),true));addEventListener('popstate',()=>selectService(location.hash.slice(1),true));
 const logoSection=document.querySelector('#logotipos'),cards=[...logoSection.querySelectorAll('.price-card')];
-const imageButton=(src,label)=>{src=src.replace(/^\.\/public\//,"./public__").replaceAll("/","__").replace(/^\.__/,"./");return `<button class="zoom-image" data-zoom="${src}" aria-label="Ampliar: ${label}"><img src="${src}" alt="${label}" loading="lazy"><span>Ampliar imagen ↗</span></button>`;};
+const deployImage=src=>src.replace(/^\.\//,'').replaceAll('/','__');
+const imageButton=(src,label)=>`<button class="zoom-image" data-zoom="${deployImage(src)}" aria-label="Ampliar: ${label}"><img src="${deployImage(src)}" alt="${label}" loading="lazy"><span>Ampliar imagen ↗</span></button>`;
 const flyerExamples=[['dental-flex','Dental Flex'],['cb-salon','CB Salon MX'],['redhot-grill','RedHot Grill'],['azul-spa','Azul Spa'],['the-cave','The Cave Barbershop'],['fika','Fika Coffee Shop'],['hotel-soledad','Hotel de la Soledad'],['san-miguelito','Restaurante San Miguelito']];
 const cardExamples=[['doctor-basico','Doctor · paquete Básico'],['doctor-plus','Doctor · paquete Plus'],['doctor-premium','Doctor · paquete Premium'],['negocio-basico','Negocio · paquete Básico'],['negocio-plus','Negocio · paquete Plus'],['negocio-premium','Negocio · paquete Premium'],['tarjetas-doctores','Resumen para profesionistas'],['tarjetas-negocio','Resumen para negocios']];
 function exampleGallery(items,folder,title){return `<div class="example-gallery"><h3>${title}</h3><p>Ejemplos visuales. Haz clic en cualquier imagen para verla completa.</p><div class="example-grid">${items.map(([file,label])=>imageButton('./public/'+folder+'/'+file+'.webp',label)).join('')}</div></div>`;}
@@ -61,7 +38,7 @@ courseGallery.innerHTML='<div class="marquee-heading"><div><h3>Aprendemos juntos
 document.querySelector('#cursos .section-heading').after(courseGallery);
 courseGallery.querySelector('.marquee-heading button').onclick=e=>{const paused=courseGallery.classList.toggle('paused');e.currentTarget.setAttribute('aria-pressed',String(paused));e.currentTarget.textContent=paused?'Reanudar movimiento ▶':'Pausar movimiento Ⅱ';};
 const logoImages=['logos/diana-salcido-brandboard.webp','logos/gustavo-alvarez-brandboard.webp','mockups/diana-salcido-kit.webp','mockups/gustavo-alvarez-kit.webp','mockups/diana-salcido-presentacion.webp','mockups/gustavo-alvarez-papeleria.webp'];
-cards.forEach((card,i)=>{card.id='paquete-'+i;card.classList.add(i%2?'corporativo':'profesional');card.querySelector('h3').insertAdjacentHTML('afterend',imageButton('./public/'+logoImages[i],card.querySelector('h3').textContent));const details=card.querySelector('details');details.open=true;details.querySelector('summary').textContent='Incluye';if(i<4)card.insertAdjacentHTML('beforeend',`<a class="package-next" href="#paquete-${i+2}">Siguiente nivel ${i%2?'Corporativo':'Profesional'} ↓</a>`);});
+cards.forEach((card,i)=>{card.id='paquete-'+i;card.classList.add(i%2?'corporativo':'profesional');card.querySelector('h3').insertAdjacentHTML('afterend',imageButton('./public/'+logoImages[i],card.querySelector('h3').textContent));const details=card.querySelector('details');details.open=false;details.querySelector('summary').textContent='Incluye';});
 const shared=['Identidad visual: manual, paleta y tipografías','5 flyers para redes sociales','Configuración de ubicación en Google Maps (sujeta a verificación de Google)','Campaña publicitaria: objetivo de alcance de 50,000 personas; alcance real sujeto a audiencia y pauta','Tarjeta digital: nombre, cargo, foto o logo y descripción del servicio','WhatsApp y correo con enlace directo','Sitio web o portafolio existente y redes sociales','Código QR'];
 for(const i of [4,5]){const card=cards[i],price=i===4?'19,990':'24,990';card.querySelector('.price').innerHTML=`$${price} <small>MXN</small>`;card.querySelector('[data-wa]').dataset.wa=`Hola JC Creativo, me interesa ${i===4?'Profesional':'Corporativo'} Completo de $${price} MXN.`;card.querySelector('ul').innerHTML=[i===4?'Logotipo profesional':'Logotipo corporativo y papelería',...shared].map(t=>'<li>'+t+'</li>').join('');}
 logoSection.querySelector('.comparison-grid').insertAdjacentHTML('beforebegin','<div class="package-families"><a href="#paquete-0"><strong>PROFESIONAL</strong><span>Logotipo → Identidad → Completo</span></a><a href="#paquete-1"><strong>CORPORATIVO</strong><span>Logotipo → Identidad → Completo</span></a></div>');
@@ -73,10 +50,6 @@ const projects=[
  ['Dr. Gustavo Álvarez','Periodoncia','Su presentación profesional destaca el cuidado de encías, la periodoncia y los implantes dentales. Una propuesta gráfica con monograma y aplicaciones de identidad.','mockups/gustavo-alvarez-kit.webp','',''],
  ['Ruby Vázquez','Diseño de interiores','Diseño y remodelaciones para residencias y espacios médicos en Guadalajara. Su estudio desarrolla proyectos que conectan la personalidad del cliente con sus espacios.','mockups/ruby-vazquez-kit.webp','https://rubyvazquez.com/','Visitar sitio']
 ];
-const strip=document.createElement('section');strip.className='project-marquee';strip.setAttribute('aria-label','Selección de identidades');strip.innerHTML='<div class="marquee-heading"><p class="eyebrow">IDENTIDADES QUE DEJAN HUELLA</p><button id="pauseMotion" aria-pressed="false">Pausar movimiento Ⅱ</button></div><div class="marquee-window"><div class="marquee-track">'+[0,1].map(copy=>`<div class="marquee-group" ${copy?'aria-hidden="true" inert':''}>`+projects.map(p=>imageButton('./public/'+p[3],p[0])).join('')+'</div>').join('')+'</div></div>';document.querySelector('.hero').after(strip);
-document.querySelector('#pauseMotion').onclick=e=>{const paused=strip.classList.toggle('paused');e.currentTarget.setAttribute('aria-pressed',String(paused));e.currentTarget.textContent=paused?'Reanudar movimiento ▶':'Pausar movimiento Ⅱ';};
-const clients=document.createElement('section');clients.className='section client-stories';clients.id='clientes';clients.innerHTML='<div class="section-heading"><div><p class="eyebrow">DETRÁS DE CADA MARCA</p><h2>Personas y negocios con identidad propia.</h2></div><p>Conoce una selección de los clientes y proyectos que forman parte de nuestro trabajo.</p></div><div class="client-grid">'+projects.map(p=>`<article>${imageButton('./public/'+p[3],p[0])}<div class="client-copy"><p class="eyebrow">${p[1]}</p><h3>${p[0]}</h3><p>${p[2]}</p>${p[4]?`<a href="${p[4]}" target="_blank" rel="noreferrer">${p[5]} ↗</a>`:''}</div></article>`).join('')+'</div>';document.querySelector('#portafolio').after(clients);
-document.querySelector('#nav').innerHTML='<a href="#inicio">Inicio</a><a href="#servicios">Servicios y precios</a><a href="#portafolio">Portafolio</a><a href="#clientes">Clientes</a><a href="#cursos">Cursos</a><a href="#sobre-mi">Sobre mí</a><a href="#contacto">Contacto</a>';
 const projectPages=[
  {slug:'diana-salcido',name:'Dra. Diana Salcido',area:'Medicina especializada',intro:'Una identidad sobria y elegante para comunicar su atención especializada en heridas. El monograma, la paleta oscura y las aplicaciones mantienen una presentación profesional y consistente.',cover:'mockups/diana-salcido-presentacion.webp',images:['mockups/diana-salcido-kit.webp','mockups/diana-salcido-papeleria.webp','logos/diana-salcido-brandboard.webp']},
  {slug:'lugo-dent',name:'Dr. Luis Lugo · Lugo’Dent',area:'Clínica dental',intro:'Una identidad luminosa para una clínica dental: un monograma de líneas elegantes, tonos claros y aplicaciones que transmiten cuidado y confianza.',cover:'clientes/lugo-dent-presentacion.webp',images:['mockups/lugo-dent-kit.webp','mockups/lugo-dent-papeleria.webp','clientes/lugo-dent-recepcion.webp','logos/lugo-dent-brandboard.webp']},
@@ -86,40 +59,3 @@ const projectPages=[
 ];
 const projectRoot=document.createElement('div');projectRoot.className='project-pages';projectRoot.hidden=true;catalog.after(projectRoot);
 projectRoot.innerHTML=projectPages.map(p=>`<section class="project-page" id="proyecto-${p.slug}" hidden><a class="back-home" href="#portafolio">← Volver al portafolio</a><div class="project-intro"><div><p class="eyebrow">${p.area}</p><h1>${p.name}</h1><p>${p.intro}</p><span class="project-count">${p.images.length+1} imágenes · Presentación e identidad</span></div>${imageButton('./public/'+p.cover,'Presentación de '+p.name)}</div><div class="project-work"><h2>Diseños y aplicaciones de marca</h2><p>Explora sus mockups e identidad visual. Haz clic para ampliar cada imagen.</p><div class="project-design-grid">${p.images.map((src,i)=>imageButton('./public/'+src,p.name+' · '+(src.includes('brandboard')?'Identidad visual':src.includes('recepcion')?'Mockup de recepción':src.includes('papeleria')?'Papelería':'Aplicaciones de marca'))).join('')}</div></div><a class="button button-ghost" href="#portafolio">Ver otros proyectos →</a></section>`).join('');
-const portfolioCards=projectPages.map(p=>`<a class="project-card" href="#proyecto-${p.slug}"><img src="./public__${p.cover.replaceAll('/','__')}" alt="Presentación de ${p.name}" loading="lazy"><div><p class="eyebrow">${p.area}</p><h3>${p.name}</h3><span>Ver diseños y mockups ↗</span></div></a>`).join('');
-const dentalIntro=document.querySelector('#proyecto-dental-del-real .project-intro');
-dentalIntro.classList.add('dental-dynamic');
-const contactIcon=path=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
-dentalIntro.querySelector('.project-count').insertAdjacentHTML('beforebegin',`<div class="dental-contact-links" aria-label="Contactos de Dental del Real"><a href="https://www.instagram.com/dental.del.real/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Dental del Real">${contactIcon('<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/>')}<span>Instagram</span></a><a href="tel:+523321016113" aria-label="Llamar a Dental del Real">${contactIcon('<path d="M5 3h4l2 5-3 2a15 15 0 0 0 6 6l2-3 5 2v4a2 2 0 0 1-2 2C9 21 3 15 3 5a2 2 0 0 1 2-2z"/>')}<span>Llamar</span></a><a class="doctoralia-link" href="https://www.doctoralia.com.mx/perfil/jose-francisco-del-real-garcia" target="_blank" rel="noopener noreferrer">${contactIcon('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4m10-4v4M3 11h18m-13 5 3 3 5-5"/>')}<span>Agendar en Doctoralia ↗</span></a></div>`);
-document.querySelector('#portafolio .portfolio-grid').innerHTML=portfolioCards;
-document.querySelector('#portafolio .filters').remove();
-clients.remove();
-document.querySelector('#nav a[href="#clientes"]').remove();
-document.querySelectorAll('[data-zoom]').forEach(button=>button.onclick=()=>{const dialog=document.querySelector('#lightbox');dialog.querySelector('img').src=button.dataset.zoom;dialog.querySelector('img').alt=button.querySelector('img').alt;dialog.querySelector('p').textContent=button.querySelector('img').alt;dialog.showModal();});
-catalog.querySelector('.catalog-intro').insertAdjacentHTML('afterbegin','<a class="back-home" href="#servicios">← Volver a los servicios de la portada</a>');
-// Compact, image-led home page. Service details remain in their own route view.
-document.querySelector('.hero h1').innerHTML='Tu marca,<br><span>en otro nivel</span>';
-document.querySelector('.hero .eyebrow').textContent='IDEAS QUE GENERAN RESULTADOS';
-document.querySelector('.hero .lead').textContent='Diseño, marketing y capacitación para hacer crecer tu negocio con creatividad y tecnología.';
-document.querySelector('.hero .button-ghost').href='#portafolio';
-document.querySelector('.hero .button-ghost').textContent='Ver portafolio';
-document.querySelector('.hero .button:not(.button-ghost)').textContent='Cotiza tu proyecto →';
-document.querySelector('.portrait-signature').insertAdjacentHTML('beforeend','<p>“Las buenas ideas<br>también se planean.”</p>');
-const serviceHeading=serviceRoot.querySelector('.section-heading');
-serviceHeading.innerHTML='<div><h2>Mis servicios <span class="heading-line"></span></h2><p>Soluciones creativas y estratégicas para impulsar tu negocio.</p></div><a class="button button-ghost" href="#logotipos">Ver todos los servicios →</a>';
-const iconPaths={logotipos:'M4 20l4-1L20 7l-3-3L5 16z M14 7l3 3 M4 21h16',redes:'M3 10h5l11-5v14L8 14H3z M8 14l2 7h3l-2-6 M22 9v6',videos:'M4 5h16v14H4z M10 9l5 3-5 3z',cursos:'M2 9l10-6 10 6-10 6z M6 12v6l6 3 6-3v-6 M22 9v9',web:'M3 4h18v13H3z M12 17v4 M7 21h10',tarjetas:'M4 3h16v18H4z M7 7h4 M7 11h10 M7 15h10',flyers:'M5 3h14v18H5z M8 7h8 M8 11h8 M8 15h5',dron:'M8 8h8v8H8z M3 3h4v4H3z M17 3h4v4h-4z M3 17h4v4H3z M17 17h4v4h-4z M7 7l2 2 M15 15l2 2 M15 9l2-2 M7 17l2-2',ia:'M12 3l2 6 7 3-7 3-2 6-2-6-7-3 7-3z'};
-const homeOrder=['logotipos','redes','cursos','flyers','dron','videos','tarjetas'];
-document.querySelector('.hero-stats').querySelectorAll('div').forEach((item,i)=>{if(i>1)item.hidden=true;});
-serviceCards.forEach(card=>{const id=card.hash.slice(1);card.style.order=homeOrder.indexOf(id);card.querySelector('b').innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${iconPaths[id]}"/></svg>`;if(homeOrder.indexOf(id)>5)card.classList.add('secondary-service');});
-const portfolio=document.querySelector('#portafolio');
-portfolio.querySelector('.section-heading').innerHTML='<div><h2>Portafolio <span class="heading-line"></span></h2><p>Identidades y proyectos que hablan por sí solos. Selecciona un cliente para ver sus diseños y mockups.</p></div>';
-const portfolioWindow=portfolio.querySelector('.portfolio-grid');
-portfolioWindow.setAttribute('aria-label','Galería horizontal de proyectos');portfolioWindow.tabIndex=0;
-portfolioWindow.insertAdjacentHTML('afterend','<div class="portfolio-controls"><button type="button" aria-label="Proyectos anteriores">←</button><span>Explora nuestros proyectos</span><button type="button" aria-label="Siguientes proyectos">→</button></div>');
-portfolio.querySelectorAll('.portfolio-controls button').forEach((b,i)=>b.onclick=()=>portfolioWindow.scrollBy({left:(i?1:-1)*portfolioWindow.clientWidth*.75,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}));
-const homeContact=document.querySelector('.final-cta');homeContact.querySelector('h2').textContent='¿Tienes un proyecto en mente?';homeContact.querySelector('p:not(.eyebrow)').textContent='Hagámoslo realidad. Estoy listo para ayudarte.';
-homeContact.insertAdjacentHTML('beforeend','<div class="contact-benefits"><span>◷ Respuesta rápida</span><span>◇ Atención personalizada</span><span>↗ Disponible para viajar</span></div>');
-document.querySelector('.travel h2').textContent='Impulsando negocios en Lázaro Cárdenas y más allá';
-const droneShowreel=document.querySelector('#droneShowreel');if(droneShowreel&&matchMedia('(prefers-reduced-motion: reduce)').matches){droneShowreel.removeAttribute('autoplay');droneShowreel.pause();}
-selectService(location.hash.slice(1));
-
