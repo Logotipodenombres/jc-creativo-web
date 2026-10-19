@@ -25,3 +25,49 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.hero-copy{opacity:1;transform:none}}
 
 .digital-examples{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.digital-example{overflow:hidden;border:1px solid var(--line,#29333f);border-radius:18px;background:#10151c}.digital-example>.zoom-image{width:100%;border:0;border-radius:0}.digital-example>.zoom-image img{width:100%;height:auto;aspect-ratio:1;object-fit:contain}.digital-example>div{padding:24px}.digital-example h3{margin:0 0 12px}.digital-example p{color:#aab6c6;line-height:1.65}.digital-example .button{margin-top:12px}.course-credentials p+p{margin-top:12px}@media(max-width:750px){.digital-examples{grid-template-columns:1fr}}
+/* Redes sociales: isolated visual system. */
+#redes{--social-blue:#2389ff;--social-line:#2b405a;background:#0b1018}
+#redes .service-hero{display:block;padding-bottom:32px;gap:0}
+#redes .redes-heading{max-width:100%;padding:0 0 30px}
+#redes .breadcrumb{border-bottom:1px solid var(--social-line);padding-bottom:20px;margin-bottom:30px}
+#redes .eyebrow{color:#55a6ff;letter-spacing:.12em;font-size:11px;font-weight:700}
+#redes h1{max-width:1000px;font-size:clamp(28px,3.8vw,52px);line-height:1.13;letter-spacing:-.035em;margin:16px 0 18px}
+#redes h1 span{color:#fff}
+#redes .redes-intro{max-width:870px;font-size:clamp(14px,1.3vw,17px);line-height:1.7;color:#bbc9db}
+#redes .redes-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+#redes .button{border-radius:8px;font-size:13px;min-height:46px}
+#redes .redes-showcase{position:relative;isolation:isolate;overflow:hidden;min-height:440px;border-radius:14px;border:1px solid #28405a;background:radial-gradient(ellipse at 50% 70%,#254b70 0%,#15283c 38%,#0c1725 75%)}
+#redes .redes-showcase:before{content:'';position:absolute;inset:0;z-index:-1;opacity:.25;background-image:linear-gradient(#5c8fb51c 1px,transparent 1px),linear-gradient(90deg,#5c8fb51c 1px,transparent 1px);background-size:54px 54px;transform:perspective(600px) rotateX(20deg) scale(1.2)}
+#redes .redes-phones{display:flex;justify-content:center;align-items:center;gap:clamp(18px,4vw,58px);padding:35px 80px 70px}
+#redes .redes-phone{width:clamp(150px,20vw,230px);flex:none;overflow:hidden;background:#071019;border:3px solid #60758a;border-radius:25px;box-shadow:12px 24px 36px #0009;transition:transform .3s ease,border-color .3s ease;transform:rotate(-8deg) translateY(16px);text-decoration:none}
+#redes .redes-phone-1{transform:translateY(-8px);width:clamp(170px,23vw,265px);z-index:2;border-color:#9aafc2}
+#redes .redes-phone-2{transform:rotate(8deg) translateY(16px)}
+#redes .redes-phone:hover{transform:translateY(-12px);border-color:#55a6ff}
+#redes .redes-phone img{display:block;width:100%;height:265px;object-fit:cover;object-position:center}
+#redes .redes-phone-1 img{height:300px}
+#redes .redes-phone-top{height:37px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:8px;letter-spacing:.15em;color:#bacadd}
+#redes .redes-phone-top span{width:30px;height:8px;border-radius:9px;background:#000}
+#redes .redes-phone-bottom{display:flex;align-items:center;justify-content:space-between;padding:13px 12px;color:#e3edff;font-size:10px}
+#redes .redes-phone-bottom svg{width:15px;height:15px}
+#redes .redes-orbit{position:absolute;border:1px solid #4798ed3d;border-radius:50%;width:700px;height:350px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-20deg);z-index:-1}
+#redes .redes-orbit-two{transform:translate(-50%,-50%) rotate(20deg)}
+#redes .redes-float{position:absolute;z-index:3;display:flex;align-items:center;gap:9px;padding:12px 16px;background:#11273be8;border:1px solid #639bd86b;box-shadow:0 10px 30px #0003;border-radius:10px;color:#c9e2ff;font-size:11px}
+#redes .redes-float svg{width:22px;height:22px;color:#6ab3ff}
+#redes .redes-float-one{left:4%;top:22%}#redes .redes-float-two{right:3%;bottom:28%}
+#redes .redes-reel{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:13px;color:#fff;background:#0b1729ef;border:1px solid #365778;border-radius:10px;padding:12px 20px;white-space:nowrap;font-size:12px}
+#redes .redes-reel svg{width:22px;height:22px;color:#65b0ff}#redes .redes-reel small{display:block;font-size:10px;color:#a8bed5;margin-top:3px}
+#redes .service-toolbar{background:#0c1420;border:1px solid #263b51;border-radius:10px;padding:8px 12px;gap:16px}
+#redes .service-toolbar [role=tab]{border-radius:6px}#redes .service-toolbar [aria-selected=true]{background:#1679eb;color:white}
+#redes .service-content{padding-top:32px}#redes .service-subpanel>h2{font-size:clamp(23px,2.5vw,34px);letter-spacing:-.025em;line-height:1.2;margin:15px 0 24px}
+#redes .redes-solutions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+#redes .redes-solution{background:#152234;border:1px solid #30445f;border-radius:10px;padding:24px;transition:transform .2s ease,border-color .2s ease,background .2s ease}
+#redes .redes-solution:hover{transform:translateY(-4px);border-color:#409dff;background:#192c43}
+#redes .redes-solution>svg{width:25px;height:25px;color:#58a6ff;margin-bottom:13px}
+#redes .redes-solution h3{font-size:17px;margin:0 0 9px}#redes .redes-solution p{font-size:13px;line-height:1.65;color:#b4c5dc;margin:0}
+#redes .redes-next{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:25px 0;color:#b4c5dc}
+#redes .price-card,#redes .faq-list details{background:#142133;border-color:#30445f;border-radius:12px}
+#redes .example-grid{gap:18px}#redes .example-grid .zoom-image{border:1px solid #30445f;border-radius:12px}
+#redes a:focus-visible,#redes button:focus-visible,#redes summary:focus-visible{outline:3px solid #8bc5ff;outline-offset:4px}
+@media(max-width:750px){#redes .redes-phones{gap:20px;padding:30px 12px 80px}#redes .redes-phone{width:25%;border-radius:18px;border-width:2px}#redes .redes-phone-1{width:30%}#redes .redes-phone img{height:210px}#redes .redes-phone-1 img{height:250px}#redes .redes-float{display:none}#redes .redes-showcase{min-height:0}#redes .service-toolbar{flex-wrap:wrap}#redes .redes-solution{padding:18px}#redes .redes-next{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){#redes .service-hero{padding-top:24px}#redes h1{font-size:29px}#redes .redes-phone img{height:150px}#redes .redes-phone-1 img{height:185px}#redes .redes-phone-top{height:25px}#redes .redes-phone-top b{font-size:5px}#redes .redes-phone-top span{width:15px;height:5px}#redes .redes-phone-bottom{font-size:7px;padding:9px 5px}#redes .redes-phones{gap:12px;padding:28px 10px 80px}#redes .redes-solution h3{font-size:14px}#redes .redes-solution p{font-size:12px}#redes .redes-solutions{gap:10px}#redes .redes-solution{padding:14px}#redes .redes-actions .button{font-size:11px;padding:12px}#redes .redes-reel{padding:10px 14px}#redes .service-toolbar>[role=tablist]{width:100%;overflow-x:auto}#redes .service-toolbar [role=tab]{font-size:12px;padding:10px}}
+@media(prefers-reduced-motion:reduce){#redes *,#redes *:before{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
